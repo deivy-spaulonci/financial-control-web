@@ -29,6 +29,7 @@ import FocusTrap from 'primevue/focustrap';
 import ContextMenu from 'primevue/contextmenu';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
+import AutoComplete from 'primevue/autocomplete';
 
 import 'primevue/resources/themes/nano/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -66,5 +67,6 @@ app.component('FileUpload', FileUpload);
 app.component('Dialog', Dialog);
 app.directive('tooltip', Tooltip);
 app.directive('focustrap', FocusTrap);
+app.component('AutoComplete', AutoComplete);
 
 app.mount('#app')

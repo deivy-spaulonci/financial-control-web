@@ -1,13 +1,15 @@
 <template>
-    <Dropdown :options="valores" optionLabel="nome"
+    <Dropdown :options="valores"
+              optionLabel="nome"
               :placeholder="place"
               autofocus
-              style="width:100%;"
+              style="width:100%; text-align: left;"
               scrollHeight="400px"
               :filter="true"
               :auto-filter-focus="true"
               :reset-filter-on-hide="true"
-              :show-clear="true" v-model="selected"
+              :show-clear="true"
+              v-model="selected"
               @change="handleChange"/>
 </template>
 

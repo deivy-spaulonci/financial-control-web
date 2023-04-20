@@ -1,8 +1,8 @@
 <template>
     <Panel header="Despesas">
         <div id="frameDespesa">
-            <despesa-form tipos="tipos" formas-pgto="formasPgto"></despesa-form>
-            <despesa-list></despesa-list>
+            <despesa-form :tipos="tipos" :formas-pgto="formasPgto"></despesa-form>
+            <despesa-list :tipos="tipos" :formas-pgto="formasPgto" ref="depesaList"></despesa-list>
         </div>
     </Panel>
 </template>
@@ -15,14 +15,19 @@ import DespesaForm from "@/views/Despesa/DespesaForm.vue";
 export default {
     name: "Despesa",
     components: {DespesaForm, DespesaList},
-    mixins: [despesaMixin]
+    mixins: [despesaMixin],
+    methods:{
+        consultaDespesas(){
+            this.$ref.depesaList.getDataDespesa();
+        }
+    }
 }
 </script>
 
 <style scoped>
     #frameDespesa{
         display: grid;
-        grid-template-columns: 400px auto;
+        grid-template-columns: 350px auto;
         gap: 3px;
     }
 </style>
