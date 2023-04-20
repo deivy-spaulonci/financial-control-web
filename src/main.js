@@ -34,7 +34,7 @@ import 'primevue/resources/themes/nano/theme.css';
 import 'primevue/resources/primevue.min.css';
 import 'primeicons/primeicons.css';
 import '/node_modules/primeflex/primeflex.css'
-
+import './assets/main.css'
 const app = createApp(App);
 
 app.use(router);
