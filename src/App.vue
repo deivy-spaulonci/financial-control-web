@@ -1,11 +1,22 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
+    <TabMenu :model="items" />
   <router-view/>
 </template>
 
+<script>
+export default {
+    data() {
+        return {
+            items: [
+                {label: 'Home', icon: 'pi pi-fw pi-home', to:'/'},
+                {label: 'Despesa', icon: 'pi pi-fw pi-dollar', to:'/despesa'},
+                {label: 'Fornecedor', icon: 'pi pi-fw pi-box', to:'/fornecedor'},
+                {label: 'Contas', icon: 'pi pi-fw pi-credit-card',  to:'/conta'},
+            ]
+        }
+    }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -13,18 +24,5 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-nav {
-  padding: 30px;
-}
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
 }
 </style>
