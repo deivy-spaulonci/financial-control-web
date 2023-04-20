@@ -1,7 +1,7 @@
 <template>
     <Panel header="Despesas">
         <div id="frameDespesa">
-            <despesa-form></despesa-form>
+            <despesa-form tipos="tipos" formas-pgto="formasPgto"></despesa-form>
             <despesa-list></despesa-list>
         </div>
     </Panel>

@@ -24,6 +24,7 @@ import CampoData from "@/components/form/CampoData.vue";
 import CampoMoeda from "@/components/form/CampoMoeda.vue";
 
 export default {
+    props: ['tipos','formasPgto'],
     name: "DespesaForm",
     components: {CampoMoeda, CampoData, ComboTipo}
 }
