@@ -25,3 +25,9 @@ html, body{
 .p-card-title{
     text-align: left;
 }
+
+.footerForm{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 3px;
+}

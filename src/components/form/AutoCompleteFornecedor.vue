@@ -7,6 +7,7 @@
             @complete="search"
             @change="handleChange"
             :inputStyle="{'width':'100%'}"
+            forceSelection
     />
 </template>
 

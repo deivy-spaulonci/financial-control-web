@@ -18,7 +18,7 @@
             </div>
         </template>
         <template #footer>
-            <div id="footer">
+            <div id="footer" class="footerForm">
                 <Button icon="pi pi-check" label="Save" size="large" @click="cadastroDespesa"/>
                 <Button icon="pi pi-times" label="Cancel" severity="secondary"  size="large"/>
             </div>
@@ -75,10 +75,5 @@ export default {
     #formCadDespesa label{
         line-height: 25px;
         text-align: left;
-    }
-    #footer{
-        display: grid;
-        grid-template-columns: auto auto;
-        gap: 3px;
     }
 </style>

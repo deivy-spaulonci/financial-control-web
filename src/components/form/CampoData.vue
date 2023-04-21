@@ -1,6 +1,6 @@
 <template>
       <InputMask mask="99/99/9999"
-                  placeholder="Data"
+                  :placeholder="place"
                   style="width: 100%;"
                   v-model="selected"
                   @keyup="handleChange"/>
@@ -8,7 +8,7 @@
 
 <script>
 export default {
-  props:['defaultValue'],
+  props:['defaultValue', 'place'],
   data() {
     return {
       selected: this.defaultValue,

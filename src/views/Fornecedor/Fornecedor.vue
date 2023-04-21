@@ -2,16 +2,18 @@
     <Panel header="Fornecedor">
         <div id="frameFornecedor">
             <fornecedor-form></fornecedor-form>
+            <fornecedor-list></fornecedor-list>
         </div>
     </Panel>
 </template>
 
 <script>
 import FornecedorForm from "@/views/Fornecedor/FornecedorForm.vue";
+import FornecedorList from "@/views/Fornecedor/FornecedorList.vue";
 
 export default {
     name: "Fornecedor",
-    components: {FornecedorForm},
+    components: {FornecedorList, FornecedorForm},
 }
 </script>
 
