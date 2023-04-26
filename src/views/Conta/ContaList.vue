@@ -4,7 +4,7 @@
             <InputNumber inputId="withoutgrouping" v-model="idFilter" mode="decimal" :useGrouping="false" placeholder="Id"
                          @input="keyUpIdFilter($event)" input-style="width:100%;"/>
 
-            <ComboTipo  @custom-change="(s) => selectedTipoConta = s" :valores="tipos" place="Tipo Conta"/>
+            <ComboTipo  @custom-change="(s) => selectedTipoConta = s" :valores="tipos" place="Tipo Conta" :valor-null="true"/>
             <Calendar v-model="vencimentoInicial" placeholder="Vencimento Inicial" @date-select="getDataConta()"  dateFormat="dd/mm/yy"
                       :showButtonBar="true" @clear-click="getDataConta"/>
             <Calendar v-model="vencimentoFinal" placeholder="Vencimento Final" @date-select="getDataConta()"  dateFormat="dd/mm/yy"
@@ -14,7 +14,7 @@
         <DataTable :value="data" :loading="loading" dataKey="id" @sort="onSort($event)"
                    stripedRows selectionMode="single" v-model:selection="selectedConta" showGridlines
                    contextMenu v-model:contextMenuSelection="selectedConta" @rowContextmenu="onRowContextMenu"
-                   v-model:expandedRows="expandedRows" style="width: 1000px;">
+                   v-model:expandedRows="expandedRows" sortField="vencimento" :sortOrder="-1" style="width: 1000px;">
 
             <template #empty>No customers found.</template>
             <template #loading>Loading contas data. Please wait.</template>
@@ -46,8 +46,8 @@
             </Column>
 
             <Column field="status" header="Status" style="padding: 0px;">
-                <template #body="slotProps" >
-                    <message-status :status="slotProps.data.intStatus" :text-status="slotProps.data.status"></message-status>
+                <template #body="slotProps" >{{slotProps.data.status}}
+<!--                    <message-status :status="slotProps.data.intStatus" :text-status="slotProps.data.status"></message-status>-->
                 </template>
             </Column>
 

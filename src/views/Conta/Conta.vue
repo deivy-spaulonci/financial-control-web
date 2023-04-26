@@ -2,7 +2,7 @@
     <Panel header="Conas">
         <div id="frameContas">
             <conta-form :tipos="tipos" :formas-pgto="formasPgto"></conta-form>
-            <conta-list :tipos="tipos" :formas-pgto="formasPgto"></conta-list>
+            <conta-list :tipos="tipos" :formas-pgto="formasPgto" ref="contaList"></conta-list>
         </div>
     </Panel>
 </template>
@@ -24,7 +24,7 @@ export default {
     },
     methods:{
         consultaContas(){
-            this.$ref.depesaList.getDataConta();
+            this.$ref.contaList.getDataConta();
         },
         async getTipos(){
             this.tipos = await this.defaultService.get('tipo-conta');

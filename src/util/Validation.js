@@ -1,10 +1,8 @@
 export default class Validation{
 
-    validationFildes(campos=[]){
 
-        campos.forEach(campo=>{
-            console.log(campo)
-        })
+    static objectIsNull(obj) {
+        return ['', undefined, null].indexOf(obj) !== -1;
     }
 
 }

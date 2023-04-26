@@ -10,7 +10,7 @@
     </div>
     <DataTable :value="data" :loading="loading" dataKey="id" @sort="onSort($event)" responsiveLayout="scroll" stripedRows
                selectionMode="single" v-model:selection="selectedDespesa"  editMode="row" @row-edit-save="onRowEditSave"
-               showGridlines v-model:editingRows="editingRows">
+               showGridlines v-model:editingRows="editingRows" >
         <template #empty>No customers found.</template>
         <template #loading>Loading despesas data. Please wait.</template>
 

@@ -2,11 +2,11 @@
     <Card>
         <template #title >Cadastro </template>
         <template #content>
-            <form id="formCadConta" @submit="onSubmit">
+            <div id="formCadConta">
                 <label>Codigo de barras:</label>
                 <InputMask v-model="contaCadastro.codigoBarra"  mask="99999999999999999999999999999999999999999999999" placeholder="Codigo de barras" class="w-full"/>
                 <label>Numero:</label>
-                <InputText type="text" id="numero" v-model="contaCadastro.numero"  placeholder="Numero" class="w-full" :class="{ 'p-invalid': errorMessage }" aria-describedby="text-error"/>
+                <InputText type="text" id="numero" v-model="contaCadastro.numero"  placeholder="Numero" class="w-full"/>
                 <label>Tipo Conta:</label>
                 <div class="p-inputgroup">
                     <ComboTipo @custom-change="(s) => contaCadastro.tipoConta = s" :valores="tipos" place="Tipo Conta"/>
@@ -24,7 +24,7 @@
                 </div>
 
                 <label>Forma Pagamento:</label>
-                <ComboTipo @custom-change="(s) => contaCadastro.formaPagamento = s" :valores="formasPgto" place="Tipo Conta"/>
+                <ComboTipo @custom-change="(s) => contaCadastro.formaPagamento = s" :valores="formasPgto" place="Forma Pgto" valor-null="true"/>
                 <div class="line4x4">
                     <label>Data Pgto:</label>
                     <label>Valor Pgto:</label>
@@ -34,18 +34,19 @@
                 <label>Observação:</label>
                 <textarea rows="3"  v-model="contaCadastro.obs"/>
 
-            </form>
+            </div>
         </template>
         <template #footer>
-            <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>
+<!-- <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>-->
             <div id="footer" class="footerForm">
-                <Button type="submit" icon="pi pi-check" label="Save" size="large" />
+                <Button type="button" icon="pi pi-check" label="Save" size="large" @click="cadastraConta" :disabled="contaInvalida"/>
                 <Button icon="pi pi-times" label="Cancel" severity="secondary"  size="large"/>
             </div>
 
-            {{contaCadastro}}
         </template>
     </Card>
+
+    <Toast />
 
     <Dialog v-model:visible="visibleLcc" modal header="Lançamento Conta Cartao" :style="{ width: '50vw' }">
       <div id="lccForma">
@@ -67,13 +68,15 @@ import Util from "@/util/Util";
 import {Conta} from "@/model/Conta";
 import {LancamentoContaCartao} from "@/model/LancamentoContaCartao";
 import AutoCompleteFornecedor from "@/components/form/AutoCompleteFornecedor.vue";
+import Validation from "@/util/Validation";
 
 export default {
     props: ['tipos','formasPgto'],
     name: "ContaForm",
     components: {AutoCompleteFornecedor, CampoMoeda, CampoData, ComboTipo},
-       data() {
+    data() {
         return {
+            contaInvalida: true,
             defaultService: null,
             util:null,
             visibleLcc:false,
@@ -87,22 +90,45 @@ export default {
         }
     },
     methods:{
-        cadastraConta(){
-            // this.contaCadastro.vencimento = this.util.formatData(this.contaCadastro.vencimento);
-            // this.contaCadastro.emissao = this.util.formatData(this.contaCadastro.emissao);
-            // this.contaCadastro.parcela = this.contaCadastro.parcela.split("/")[0];
-            // this.contaCadastro.totalParcela = this.contaCadastro.parcela.split("/")[1];
-            // this.contaCadastro.valor = this.contaCadastro.valor.replaceAll('.','').replaceAll(',', '.');
+        clearConta(){
+            this.contaCadastro = new Conta();
+        },
+        async cadastraConta(){
+            this.contaCadastro.vencimento = this.util.formatData(this.contaCadastro.vencimento);
+            this.contaCadastro.emissao = this.util.formatData(this.contaCadastro.emissao);
+            var arrParc =  this.contaCadastro.parcela.split("/");
+            this.contaCadastro.parcela = arrParc[0];
+            this.contaCadastro.totalParcela  =arrParc[1];
+            this.contaCadastro.valor = this.contaCadastro.valor.replaceAll('.','').replaceAll(',', '.');
+            if(this.contaCadastro.valorPago)
+                this.contaCadastro.valorPago = this.contaCadastro.valorPago.replaceAll('.','').replaceAll(',', '.');
+            if(this.contaCadastro.dataPagamento)
+                this.contaCadastro.dataPagamento = this.util.formatData(this.contaCadastro.dataPagamento);
 
-            // alert(JSON.stringify(this.contaCadastro))
-            // // await this.defaultService.post('despesa',this.despesaCadastro);
-            //this.$emit('consultaDespesas');
-            // await this.clearDespesa();
+            await this.defaultService.post('conta',this.contaCadastro);
+            this.$emit('consultaContas');
+            await this.clearConta();
         }
     },
     created() {
         this.defaultService = new DefaultService();
         this.util = new Util();
+    },
+    watch:{
+        contaCadastro:{
+            handler(newValue) {
+                this.contaInvalida = !(Validation.objectIsNull(newValue.codigoBarra)
+                                        || Validation.objectIsNull(newValue.numero)
+                                        || Validation.objectIsNull(newValue.emissao)
+                                        || Validation.objectIsNull(newValue.vencimento)
+                                        || Validation.objectIsNull(newValue.parcela)
+                                        || Validation.objectIsNull(newValue.valor));
+                this.contaInvalida = ((!Validation.objectIsNull(newValue.formaPagamento) && Validation.objectIsNull(newValue.dataPagamento))
+                    || (Validation.objectIsNull(newValue.formaPagamento) && !Validation.objectIsNull(newValue.dataPagamento))
+                );
+            },
+            deep: true
+        }
     }
 }
 </script>

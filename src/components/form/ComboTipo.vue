@@ -15,7 +15,7 @@
 
 <script>
 export default {
-  props: ['valores','place'],
+  props: ['valores','place','valorNull'],
   data() {
     return {
       selected: null,
@@ -26,7 +26,11 @@ export default {
       this.selected = event.value;
       this.$emit("customChange", event.value)
     }
-  }
+  },
+    created() {
+      if(!this.valorNull)
+          this.selected = this.valores[0];
+    }
 }
 </script>
 
