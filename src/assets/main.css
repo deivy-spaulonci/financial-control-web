@@ -31,3 +31,51 @@ html, body{
     grid-template-columns: auto auto;
     gap: 3px;
 }
+
+
+.backGblue{background-color: #007bff;}
+.backGindigo{background-color: #6610f2;}
+.backGpurple{background-color: #6f42c1;}
+.backGpink{background-color: #e83e8c;}
+.backGred{background-color: #dc3545;}
+.backGorange{background-color: #fd7e14;}
+.backGyellow{background-color: #ffc107;}
+.backGgreen{background-color: #28a745;}
+.backGteal{background-color: #20c997;}
+.backGcyan{background-color: #17a2b8;}
+.backGwhite{background-color: #fff;}
+.backGgray{background-color: #6c757d;}
+.backGgray-dark{background-color: #343a40;}
+.backGprimary{background-color: #007bff;}
+.backGsecondary{background-color: #6c757d;}
+.backGsuccess{background-color: #28a745;}
+.backGinfo{background-color: #17a2b8;}
+.backGwarning{background-color: #ffc107;}
+.backGdanger{background-color: #dc3545;}
+.backGlight{background-color: #f8f9fa;}
+.backGdanger{background-color: #dc3545;}
+.backGdark{background-color: #343a40;}
+
+
+.blue{color: #007bff;}
+.indigo{color: #6610f2;}
+.purple{color: #6f42c1;}
+.pink{color: #e83e8c;}
+.red{color: #dc3545;}
+.orange{color: #fd7e14;}
+.yellow{color: #ffc107;}
+.green{color: #28a745;}
+.teal{color: #20c997;}
+.cyan{color: #17a2b8;}
+.white{color: #fff;}
+.gray{color: #6c757d;}
+.gray-dark{color: #343a40;}
+.primary{color: #007bff;}
+.secondary{color: #6c757d;}
+.success{color: #28a745;}
+.info{color: #17a2b8;}
+.warning{color: #ffc107;}
+.danger{color: #dc3545;}
+.light{color: #f8f9fa;}
+.danger{color: #dc3545;}
+.dark{color: #343a40;}

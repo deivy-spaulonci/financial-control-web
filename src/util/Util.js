@@ -4,6 +4,11 @@ export default class Util {
             return new Intl.NumberFormat('pt-BR', {style: 'currency',currency: 'BRL',minimumFractionDigits: 2,}).format(value);
         return ''
     }
+    formatCurrencyBRnoSymbol(value){
+        if(value)
+            return new Intl.NumberFormat('pt-BR', {minimumFractionDigits: 2,}).format(value);
+        return ''
+    }
     formatDateBr(value){
         if(value){
             const date = new Date(value);

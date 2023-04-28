@@ -1,8 +1,8 @@
 <template>
     <Panel header="Fornecedor">
         <div id="frameFornecedor">
-            <fornecedor-form></fornecedor-form>
-            <fornecedor-list></fornecedor-list>
+            <fornecedor-form @refreshListFornecedor="consultaFornecedor" ref="fornecedorForm"></fornecedor-form>
+            <fornecedor-list @editSelectedFornecedor="editFornecedor" ref="fornecedorList"></fornecedor-list>
         </div>
     </Panel>
 </template>
@@ -14,6 +14,14 @@ import FornecedorList from "@/views/Fornecedor/FornecedorList.vue";
 export default {
     name: "Fornecedor",
     components: {FornecedorList, FornecedorForm},
+    methods:{
+        consultaFornecedor(){
+            this.$refs.fornecedorList.getDataFornecedor();
+        },
+        editFornecedor(fornecedor){
+            this.$refs.fornecedorForm.setEditfornecedor(fornecedor)
+        }
+    }
 }
 </script>
 

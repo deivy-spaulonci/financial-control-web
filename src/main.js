@@ -30,6 +30,7 @@ import ContextMenu from 'primevue/contextmenu';
 import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import AutoComplete from 'primevue/autocomplete';
+import RadioButton from 'primevue/radiobutton';
 
 import 'primevue/resources/themes/nano/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -68,5 +69,6 @@ app.component('Dialog', Dialog);
 app.directive('tooltip', Tooltip);
 app.directive('focustrap', FocusTrap);
 app.component('AutoComplete', AutoComplete);
+app.component('RadioButton', RadioButton);
 
 app.mount('#app')

@@ -18,7 +18,7 @@ export class Conta{
     cancelado;
     idCancelamento;
     obs;
-    lancamentoContaCartao = [];
+    lancamentoContaCartao= [];
     status;
 
 }

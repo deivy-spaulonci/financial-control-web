@@ -1,7 +1,7 @@
 import {Fornecedor} from "@/model/Fornecedor";
 
 export class LancamentoContaCartao{
-    forencedor=new Fornecedor();
+    fornecedor=new Fornecedor();
     data;
     valor;
     parcela=0;

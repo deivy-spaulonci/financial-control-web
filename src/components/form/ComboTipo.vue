@@ -8,28 +8,33 @@
               :filter="true"
               :auto-filter-focus="true"
               :reset-filter-on-hide="true"
-              :show-clear="true"
+              :show-clear="this.valorNull!=null"
               v-model="selected"
               @change="handleChange"/>
 </template>
 
 <script>
 export default {
-  props: ['valores','place','valorNull'],
-  data() {
-    return {
-      selected: null,
-    }
-  },
-  methods: {
-    handleChange (event) {
-      this.selected = event.value;
-      this.$emit("customChange", event.value)
-    }
-  },
+    props: ['valores', 'place', 'valorNull', 'setSelected'],
+    data() {
+        return {
+            selected: null
+        }
+    },
+    methods: {
+        handleChange(event) {
+            this.selected = event.value;
+            this.$emit("customChange", event.value)
+        }
+    },
     created() {
-      if(!this.valorNull)
-          this.selected = this.valores[0];
+        if (['', undefined, null].indexOf(this.valorNull))
+            this.selected = this.valores[0];
+    },
+    watch: {
+        setSelected(newValue) {
+            this.selected = newValue;
+        }
     }
 }
 </script>

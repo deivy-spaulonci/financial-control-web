@@ -1,37 +1,38 @@
 <template>
     <AutoComplete
             v-model="selected"
-            placeholder="Fornecedor"
+            placeholder="Cidade"
             optionLabel="nome"
-            :suggestions="fornecedores"
+            :suggestions="cidades"
             @complete="search"
             @change="handleChange"
             :inputStyle="{'width':'100%'}"
             forceSelection
     >
-        <template #option="slotProps">
-            <div class="flex align-options-center">
-                <div>{{ slotProps.option.nome }} - {{ slotProps.option.cidade.nome }}</div>
-            </div>
-        </template>
+    <template #option="slotProps">
+        <div class="flex align-options-center">
+            <div>{{ slotProps.option.nome }} - {{ slotProps.option.estado.value }}</div>
+        </div>
+    </template>
     </AutoComplete>
 </template>
 
 <script>
 import DefaultService from "@/service/DefaultService";
+
+
 export default {
     props: ['setSelected'],
-    name: "AutoCompleteFornecedor",
+    name: "AutoCompleteCidade",
     data() {
         return {
-            fornecedores:[],
+            cidades:[],
             selected: null,
         }
     },
     methods: {
         async search(event) {
-            console.log(event.query)
-            this.fornecedores = await this.defaultService.get('fornecedor/search/'+event.query);
+            this.cidades = await this.defaultService.get('cidade?nome='+event.query);
             // this.items = [...Array(10).keys()].map((item) => event.query + '-' + item);
         },
         handleChange (event) {
@@ -45,6 +46,7 @@ export default {
     watch: {
         setSelected(newValue) {
             this.selected = newValue;
+
         }
     }
 }

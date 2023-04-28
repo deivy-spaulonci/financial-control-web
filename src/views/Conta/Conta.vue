@@ -1,8 +1,8 @@
 <template>
-    <Panel header="Conas">
+    <Panel header="Contas">
         <div id="frameContas">
-            <conta-form :tipos="tipos" :formas-pgto="formasPgto"></conta-form>
-            <conta-list :tipos="tipos" :formas-pgto="formasPgto" ref="contaList"></conta-list>
+            <conta-form :tipos="tipos" :formas-pgto="formasPgto" @refreshListConta="consultaContas" ref="contaForm"></conta-form>
+            <conta-list :tipos="tipos" :formas-pgto="formasPgto" @editSelectedConta="editConta" ref="contaList"></conta-list>
         </div>
     </Panel>
 </template>
@@ -13,6 +13,7 @@ import ContaList from "@/views/Conta/ContaList.vue";
 import DefaultService from "@/service/DefaultService";
 
 export default {
+
     name: "Conta",
     components: {ContaList, ContaForm},
     data() {
@@ -23,8 +24,11 @@ export default {
         }
     },
     methods:{
+        editConta(conta){
+            this.$refs.contaForm.setEditConta(conta)
+        },
         consultaContas(){
-            this.$ref.contaList.getDataConta();
+            this.$refs.contaList.getDataConta();
         },
         async getTipos(){
             this.tipos = await this.defaultService.get('tipo-conta');

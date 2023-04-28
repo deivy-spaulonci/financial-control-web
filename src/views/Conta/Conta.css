@@ -1,0 +1,49 @@
+#formCadConta{
+    display: grid;
+    /*grid-template-columns: 73px auto;*/
+    gap: 3px;
+}
+#formCadConta label{
+    line-height: 25px;
+    text-align: left;
+}
+#formCadConta .line4x4{
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 3px;
+}
+#lccForma{
+    display: grid;
+    grid-template-columns: auto 100px 100px 100px 30px;
+    gap: 3px;
+}
+
+
+#filtros{
+    display: grid;
+    grid-template-columns:100px 300px 115px 115px;
+    gap: 3px;
+}
+.gridExpand1{
+    display: grid;
+    grid-template-columns: 100px 250px 80px 100px 80px 100px;
+    gap: 2px;
+}
+.gridExpand1 div{
+    line-height:25px;
+}
+.gridExpand1 div:nth-child(2n + 2){
+    font-style: italic;
+}
+.gridExpand1 div:nth-child(2){
+    grid-column-start: 2;
+    grid-column-end: 5;
+}
+.gridExpand1 div:nth-child(4){
+    grid-column-start: 6;
+    grid-column-end: 8;
+}
+.gridExpand1 div:nth-child(13){
+    grid-column-start: 2;
+    grid-column-end: 8;
+}

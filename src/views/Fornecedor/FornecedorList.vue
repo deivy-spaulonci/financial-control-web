@@ -1,12 +1,14 @@
 <template>
     <div id="frameListFornecedor">
         <div id="filtros">
-          <InputNumber inputId="withoutgrouping" v-model="idFilter" mode="decimal" :useGrouping="false" placeholder="Id"  @input="keyUpIdFilter($event)" input-style="width:100%;"/>
+          <InputNumber inputId="withoutgrouping" v-model="idFilter" mode="decimal" :useGrouping="false" placeholder="Id"
+                       @input="keyUpIdFilter($event)" :input-style="{'width':'100%'}"/>
           <InputText placeholder="Nome" type="text" v-model="nomeFilter" @input="keyUpIdFilter($event)" style="width:100%;"/>
           <InputText placeholder="CNPJ" type="text" v-model="cnpjFilter" @input="keyUpIdFilter($event)" style="width:100%;"/>
         </div>
 
         <DataTable :value="data" :loading="loading" dataKey="id" @sort="onSort($event)" responsiveLayout="scroll"
+                   contextMenu v-model:contextMenuSelection="selectedFornecedor" @rowContextmenu="onRowContextMenu"
                    stripedRows selectionMode="single" v-model:selection="selectedFornecedor" showGridlines>
             <template #empty>No customers found.</template>
             <template #loading>Loading contas data. Please wait.</template>
@@ -23,15 +25,9 @@
                 </template>
             </Column>
 
-            <Column headerStyle="width: 4rem; text-align: center" bodyStyle="text-align: center; overflow: visible;" style="padding: 0px;">
-                <template #body="slotProps">
-                    <Button type="button" icon="pi pi-pencil" class="p-button-success p-button-sm" @click="editFornecedor(slotProps.data.id)"></Button>
-                </template>
-            </Column>
-
         </DataTable>
         <Paginator :rows="rows" :totalRecords="totalLinas" @page="onPage($event)" :rowsPerPageOptions="[10,15,20,25]"></Paginator>
-
+        <ContextMenu ref="cm" :model="menuModel" />
     </div>
 </template>
 
@@ -53,13 +49,20 @@ export default {
             lazyParams: {},
             rows: 20,
             data: [],
-            cidades:[],
-            cidadesDb:[],
             defaultService: null,
             util:null,
+            menuModel: [
+                {label: 'Editar', icon: 'pi pi-fw pi-pencil', command: () => this.editarFornecedor()},
+            ],
         }
     },
     methods:{
+        onRowContextMenu(event) {
+            this.$refs.cm.show(event.originalEvent);
+        },
+        editarFornecedor(){
+            this.$emit('editSelectedFornecedor', this.selectedFornecedor);
+        },
         onSort(event) {
             this.lazyParams = event;
             this.getDataFornecedor();
@@ -71,9 +74,6 @@ export default {
         keyUpIdFilter(event){
             this.idFilter = event.value;
             this.getDataFornecedor();
-        },
-        async getCidades(){
-            this.cidadesDb = await this.defaultService.get('cidade');
         },
         async getDataFornecedor(){
             // if(this.selectedTipoDespesa)
@@ -105,16 +105,11 @@ export default {
             this.totalLinas =  await res.totalElements;
 
             this.loading = false;
-        },
-        // async editFornecedor(id){
-        //     this.fornecedorCadastro = await this.defaultService.get('fornecedor/'+id);
-        //     this.cidades = this.cidadesDb;
-        // }
+        }
     },
     mounted() {
         this.loading = true;
         this.getDataFornecedor();
-        // this.getCidades()
     },
     created() {
         this.defaultService = new DefaultService();

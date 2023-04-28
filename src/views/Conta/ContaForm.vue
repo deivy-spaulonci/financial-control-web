@@ -2,37 +2,41 @@
     <Card>
         <template #title >Cadastro </template>
         <template #content>
+            <InlineMessage severity="warn" style="position:absolute; float:right; padding: 5px 20px;" v-if="contaCadastro.id">
+                ID Conta : {{contaCadastro.id}}
+            </InlineMessage>
+
             <div id="formCadConta">
                 <label>Codigo de barras:</label>
-                <InputMask v-model="contaCadastro.codigoBarra"  mask="99999999999999999999999999999999999999999999999" placeholder="Codigo de barras" class="w-full"/>
-                <label>Numero:</label>
-                <InputText type="text" id="numero" v-model="contaCadastro.numero"  placeholder="Numero" class="w-full"/>
+                <InputMask v-model="contaCadastro.codigoBarra"  :mask="maskaraCodBar" placeholder="Codigo de barras" class="w-full"/>
+                <label>Número:</label>
+                <InputText type="text" id="numero" v-model="contaCadastro.numero"  placeholder="Número" class="w-full"/>
                 <label>Tipo Conta:</label>
                 <div class="p-inputgroup">
-                    <ComboTipo @custom-change="(s) => contaCadastro.tipoConta = s" :valores="tipos" place="Tipo Conta"/>
+                    <ComboTipo @custom-change="(s) => contaCadastro.tipoConta = s" :valores="tipos" place="Tipo Conta" :set-selected="contaCadastro.tipoConta"/>
                     <Button type="button" :disabled="!contaCadastro.tipoConta.contaCartao" icon="pi pi-align-justify" class="p-button-warning p-button-sm" @click="visibleLcc = true"></Button>
                 </div>
                 <div class="line4x4">
                     <label>Emissão:</label>
                     <label>Vencimento:</label>
-                    <CampoData @custom-change="(s) => contaCadastro.emissao = s" place="Emissao"/>
-                    <CampoData @custom-change="(s) => contaCadastro.vencimento = s" place="Vencimento"/>
+                    <InputMask v-model="contaCadastro.emissao" mask="99/99/9999" placeholder="Data Pgto" class="w-full"/>
+                    <InputMask v-model="contaCadastro.vencimento" mask="99/99/9999" placeholder="Data Pgto" class="w-full"/>
                     <label>Parcelas:</label>
                     <label>Valor:</label>
                     <InputMask v-model="contaCadastro.parcela" mask="99/99" placeholder="Parcelas" class="w-full textCenter" />
-                    <CampoMoeda @custom-change="(s) => contaCadastro.valor = s"/>
+                    <CampoMoeda @custom-change="(s) => contaCadastro.valor = s"  :set-selected="contaCadastro.valor"/>
                 </div>
 
                 <label>Forma Pagamento:</label>
-                <ComboTipo @custom-change="(s) => contaCadastro.formaPagamento = s" :valores="formasPgto" place="Forma Pgto" valor-null="true"/>
+                <ComboTipo @custom-change="(s) => contaCadastro.formaPagamento = s" :valores="formasPgto" place="Forma Pgto" valor-null="true" :set-selected="contaCadastro.formaPagamento"/>
                 <div class="line4x4">
                     <label>Data Pgto:</label>
                     <label>Valor Pgto:</label>
                     <InputMask v-model="contaCadastro.dataPagamento" mask="99/99/9999" placeholder="Data Pgto" class="w-full"/>
-                    <CampoMoeda @custom-change="(s) => contaCadastro.valorPago = s"/>
+                    <CampoMoeda @custom-change="(s) => contaCadastro.valorPago = s" :set-selected="contaCadastro.valorPago"/>
                 </div>
                 <label>Observação:</label>
-                <textarea rows="3"  v-model="contaCadastro.obs"/>
+                <textarea rows="3"  v-model="contaCadastro.obs" />
 
             </div>
         </template>
@@ -40,7 +44,7 @@
 <!-- <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>-->
             <div id="footer" class="footerForm">
                 <Button type="button" icon="pi pi-check" label="Save" size="large" @click="cadastraConta" :disabled="contaInvalida"/>
-                <Button icon="pi pi-times" label="Cancel" severity="secondary"  size="large"/>
+                <Button type="button" icon="pi pi-times" label="Cancel" severity="secondary"  size="large" @click="cancelar" />
             </div>
 
         </template>
@@ -48,109 +52,32 @@
 
     <Toast />
 
-    <Dialog v-model:visible="visibleLcc" modal header="Lançamento Conta Cartao" :style="{ width: '50vw' }">
+    <Dialog v-model:visible="visibleLcc" modal header="Lançamento Conta Cartao" :style="{ width: '50vw'}">
       <div id="lccForma">
-          <AutoCompleteFornecedor @custom-change="(s) => lancamentoContaCartao.fornecedor = s"></AutoCompleteFornecedor>
+          <AutoCompleteFornecedor @custom-change="(s) => lancamentoContaCartao.fornecedor = s"
+                                  :set-selected="lancamentoContaCartao.fornecedor">
+          </AutoCompleteFornecedor>
           <InputMask v-model="lancamentoContaCartao.data" mask="99/99/9999" placeholder="data" class="textCenter" />
           <InputMask v-model="lancamentoContaCartao.parcela" mask="99/99" placeholder="Parcelas" class="textCenter" />
-          <CampoMoeda @custom-change="(s) => lancamentoContaCartao.valor = s" class="textCenter"/>
+          <CampoMoeda @custom-change="(s) => lancamentoContaCartao.valor = s" class="textCenter" :set-selected="lancamentoContaCartao.valor"/>
           <Button type="button" icon="pi pi-plus" class="p-button-primary" @click="addLancamentoContaCartao"></Button>
       </div>
+        <TabelaLancamentoContaCartao :valores="this.contaCadastro.lancamentoContaCartao">
+        </TabelaLancamentoContaCartao>
     </Dialog>
 </template>
 
 <script>
-import ComboTipo from "@/components/form/ComboTipo.vue";
-import CampoMoeda from "@/components/form/CampoMoeda.vue";
-import CampoData from "@/components/form/CampoData.vue";
-import DefaultService from "@/service/DefaultService";
-import Util from "@/util/Util";
-import {Conta} from "@/model/Conta";
-import {LancamentoContaCartao} from "@/model/LancamentoContaCartao";
-import AutoCompleteFornecedor from "@/components/form/AutoCompleteFornecedor.vue";
-import Validation from "@/util/Validation";
+    import contaFormMixin from "@/views/Conta/contaFormMixin";
+    import TabelaLancamentoContaCartao from "@/views/Conta/TabelaLancamentoContaCartao.vue";
 
-export default {
-    props: ['tipos','formasPgto'],
-    name: "ContaForm",
-    components: {AutoCompleteFornecedor, CampoMoeda, CampoData, ComboTipo},
-    data() {
-        return {
-            contaInvalida: true,
-            defaultService: null,
-            util:null,
-            visibleLcc:false,
-            menuModel: [
-                {label: 'Editar', icon: 'pi pi-fw pi-pencil', command: () => alert('teste')},
-                {label: 'Excluir', icon: 'pi pi-fw pi-trash', command: () => alert('teste')}
-            ],
-            contaCadastro: new Conta(),
-            lancamentoContaCartao: new LancamentoContaCartao(),
-            parcela:null,
-        }
-    },
-    methods:{
-        clearConta(){
-            this.contaCadastro = new Conta();
-        },
-        async cadastraConta(){
-            this.contaCadastro.vencimento = this.util.formatData(this.contaCadastro.vencimento);
-            this.contaCadastro.emissao = this.util.formatData(this.contaCadastro.emissao);
-            var arrParc =  this.contaCadastro.parcela.split("/");
-            this.contaCadastro.parcela = arrParc[0];
-            this.contaCadastro.totalParcela  =arrParc[1];
-            this.contaCadastro.valor = this.contaCadastro.valor.replaceAll('.','').replaceAll(',', '.');
-            if(this.contaCadastro.valorPago)
-                this.contaCadastro.valorPago = this.contaCadastro.valorPago.replaceAll('.','').replaceAll(',', '.');
-            if(this.contaCadastro.dataPagamento)
-                this.contaCadastro.dataPagamento = this.util.formatData(this.contaCadastro.dataPagamento);
-
-            await this.defaultService.post('conta',this.contaCadastro);
-            this.$emit('consultaContas');
-            await this.clearConta();
-        }
-    },
-    created() {
-        this.defaultService = new DefaultService();
-        this.util = new Util();
-    },
-    watch:{
-        contaCadastro:{
-            handler(newValue) {
-                this.contaInvalida = !(Validation.objectIsNull(newValue.codigoBarra)
-                                        || Validation.objectIsNull(newValue.numero)
-                                        || Validation.objectIsNull(newValue.emissao)
-                                        || Validation.objectIsNull(newValue.vencimento)
-                                        || Validation.objectIsNull(newValue.parcela)
-                                        || Validation.objectIsNull(newValue.valor));
-                this.contaInvalida = ((!Validation.objectIsNull(newValue.formaPagamento) && Validation.objectIsNull(newValue.dataPagamento))
-                    || (Validation.objectIsNull(newValue.formaPagamento) && !Validation.objectIsNull(newValue.dataPagamento))
-                );
-            },
-            deep: true
-        }
+    export default {
+        name: "ContaList",
+        components: {TabelaLancamentoContaCartao},
+        mixins: [contaFormMixin]
     }
-}
 </script>
 
 <style scoped>
-  #formCadConta{
-      display: grid;
-      /*grid-template-columns: 73px auto;*/
-      gap: 3px;
-  }
-  #formCadConta label{
-      line-height: 25px;
-      text-align: left;
-  }
-  #formCadConta .line4x4{
-      display: grid;
-      grid-template-columns: auto auto;
-      gap: 3px;
-  }
-  #lccForma{
-      display: grid;
-      grid-template-columns: auto 100px 100px 100px 100px;
-      gap: 3px;
-  }
+    @import url('Conta.css');
 </style>
