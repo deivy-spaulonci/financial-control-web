@@ -23,14 +23,30 @@ export default {
             valorTotal: 0,
             menuModel: [
                 {label: 'Editar', icon: 'pi pi-fw pi-pencil', command: () => this.editarConta()},
-                {label: 'Excluir', icon: 'pi pi-fw pi-trash', command: () => alert('teste')}
+                {label: 'Excluir', icon: 'pi pi-fw pi-trash', command: () => this.excluirConta()}
             ],
             parcela:null,
             defaultService: null,
             util:null,
+
         }
     },
     methods:{
+
+        editarConta(){
+            this.$emit('editSelectedConta', this.selectedConta);
+        },
+        excluirConta(){
+            this.$confirm.require({
+                message: 'Confirma a exclusão da conta?',
+                header: 'Confirmação',
+                icon: 'pi pi-exclamation-triangle',
+                accept: async () => {
+                    await this.defaultService.delete('conta/'+this.selectedConta.id);
+                    await this.getDataConta();
+                }
+            });
+        },
         onRowContextMenu(event) {
             this.$refs.cm.show(event.originalEvent);
         },
@@ -77,9 +93,7 @@ export default {
 
             this.loading = false;
         },
-        editarConta(){
-            this.$emit('editSelectedConta', this.selectedConta);
-        }
+
     },
     mounted() {
         this.loading = true;

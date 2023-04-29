@@ -38,7 +38,11 @@
                 <label>Observação:</label>
                 <textarea rows="3"  v-model="contaCadastro.obs" />
 
+
             </div>
+
+
+
         </template>
         <template #footer>
 <!-- <small class="p-error" id="text-error">{{ errorMessage || '&nbsp;' }}</small>-->
@@ -52,18 +56,24 @@
 
     <Toast />
 
-    <Dialog v-model:visible="visibleLcc" modal header="Lançamento Conta Cartao" :style="{ width: '50vw'}">
-      <div id="lccForma">
-          <AutoCompleteFornecedor @custom-change="(s) => lancamentoContaCartao.fornecedor = s"
-                                  :set-selected="lancamentoContaCartao.fornecedor">
-          </AutoCompleteFornecedor>
-          <InputMask v-model="lancamentoContaCartao.data" mask="99/99/9999" placeholder="data" class="textCenter" />
-          <InputMask v-model="lancamentoContaCartao.parcela" mask="99/99" placeholder="Parcelas" class="textCenter" />
-          <CampoMoeda @custom-change="(s) => lancamentoContaCartao.valor = s" class="textCenter" :set-selected="lancamentoContaCartao.valor"/>
-          <Button type="button" icon="pi pi-plus" class="p-button-primary" @click="addLancamentoContaCartao"></Button>
-      </div>
+    <Dialog v-model:visible="visibleLcc" modal header="Lançamento Conta Cartao" :style="{ width: '50vw', textAlign: 'center'}">
+        <textarea rows="4" cols="50"  v-model="textoTest" @keypress.enter="textoTest+=';'" style="width: 100%;"/>
+        <Button type="button" icon="pi pi-arrows-v" label="converter" size="large" @click="preCadLcc" style="margin:10px;"></Button>
+
+
+
+<!--      <div id="lccForma">-->
+<!--          <AutoCompleteFornecedor @custom-change="(s) => lancamentoContaCartao.fornecedor = s"-->
+<!--                                  :set-selected="lancamentoContaCartao.fornecedor" autofocus>-->
+<!--          </AutoCompleteFornecedor>-->
+<!--          <InputMask v-model="lancamentoContaCartao.data" mask="99/99/9999" placeholder="data" class="textCenter" />-->
+<!--          <InputMask v-model="lancamentoContaCartao.parcela" mask="99/99" placeholder="Parcelas" class="textCenter" />-->
+<!--          <CampoMoeda @custom-change="(s) => lancamentoContaCartao.valor = s" class="textCenter" :set-selected="lancamentoContaCartao.valor"/>-->
+<!--          <Button type="button" icon="pi pi-plus" class="p-button-primary" @click="addLancamentoContaCartao"></Button>-->
+<!--      </div>-->
         <TabelaLancamentoContaCartao :valores="this.contaCadastro.lancamentoContaCartao">
         </TabelaLancamentoContaCartao>
+        <Button type="button" icon="pi pi-trash" label="Apagar tudo" severity="warning" style="margin:10px;" @click="contaCadastro.lancamentoContaCartao=[]"/>
     </Dialog>
 </template>
 

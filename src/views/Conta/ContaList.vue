@@ -84,6 +84,8 @@
         <Paginator style="width: 900px;" :rows="rows" :totalRecords="totalLinas" @page="onPage($event)" :rowsPerPageOptions="[10,15,20,25]"></Paginator>
 
         <ContextMenu ref="cm" :model="menuModel" />
+
+        <ConfirmDialog></ConfirmDialog>
     </div>
 </template>
 

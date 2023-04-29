@@ -24,6 +24,7 @@ import TabPanel from 'primevue/tabpanel';
 import Divider from 'primevue/divider';
 import Toast from 'primevue/toast';
 import ToastService from 'primevue/toastservice';
+import ConfirmationService from 'primevue/confirmationservice';
 import Tooltip from 'primevue/tooltip';
 import FocusTrap from 'primevue/focustrap';
 import ContextMenu from 'primevue/contextmenu';
@@ -31,6 +32,7 @@ import FileUpload from 'primevue/fileupload';
 import Dialog from 'primevue/dialog';
 import AutoComplete from 'primevue/autocomplete';
 import RadioButton from 'primevue/radiobutton';
+import ConfirmDialog from 'primevue/confirmdialog';
 
 import 'primevue/resources/themes/nano/theme.css';
 import 'primevue/resources/primevue.min.css';
@@ -40,8 +42,15 @@ import './assets/main.css'
 const app = createApp(App);
 
 app.use(router);
-app.use(PrimeVue);
+app.use(PrimeVue, {
+    locale: {
+        accept: 'Sim',
+        reject: 'Não',
+        //...
+    }
+});
 app.use(ToastService);
+app.use(ConfirmationService);
 
 app.component('Button', Button);
 app.component('TabMenu', TabMenu);
@@ -70,5 +79,6 @@ app.directive('tooltip', Tooltip);
 app.directive('focustrap', FocusTrap);
 app.component('AutoComplete', AutoComplete);
 app.component('RadioButton', RadioButton);
+app.component('ConfirmDialog', ConfirmDialog);
 
 app.mount('#app')

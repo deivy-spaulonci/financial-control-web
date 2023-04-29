@@ -17,6 +17,15 @@ export default class DefaultService {
         return await response.json();
     }
 
+    async delete(url){
+        const requestOptions = {
+            method: "DELETE",
+            headers: { "Content-Type": "application/json" },
+        }
+        const response = await fetch(this.root+url, requestOptions);
+        return await response.json();
+    }
+
     getUlrBase(){
         return this.root;
     }

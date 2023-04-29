@@ -16,6 +16,7 @@
     display: grid;
     grid-template-columns: auto 100px 100px 100px 30px;
     gap: 3px;
+    margin: 10px;
 }
 
 

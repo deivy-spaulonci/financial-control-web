@@ -29,10 +29,42 @@ export default {
             contaCadastro: new Conta(),
             lancamentoContaCartao: new LancamentoContaCartao(),
             parcela:null,
-            maskaraCodBar:'99999999999999999999999999999999999999999999999'
+            maskaraCodBar:'99999999999999999999999999999999999999999999999',
+            textoTest:''
         }
     },
     methods:{
+        preCadLcc(){
+            var arr = this.textoTest.split(";");
+            arr.forEach(linha => {
+                let lcc=new LancamentoContaCartao();
+                if(linha.length<13){
+                    this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Erro: linha incompleta', life: 3000 });
+                }else{
+                    let dia= linha.substring(0,2);
+                    let mes= linha.substring(2,4);
+                    let ano= linha.substring(4,8)
+                    let data= `${ano}-${mes}-${dia}`;
+                    if(Validation.isValidDate(data)){
+                        lcc.data = data;
+                        let parcela= linha.substring(8,10);
+                        let totalPa= linha.substring(10,12);
+                        lcc.parcela = parseInt(parcela);
+                        lcc.totalParcela = parseInt(totalPa);
+
+                        let valor= linha.substring(12, linha.length);
+                        console.log(parseFloat(valor));
+                        lcc.valor = valor;
+
+                        this.contaCadastro.lancamentoContaCartao.push(lcc);
+                    }else{
+                        this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Fornecedor inválido', life: 3000 });
+                    }
+                }
+            });
+            this.textoTest = '';
+
+        },
         addLancamentoContaCartao(){
             if(Validation.objectIsNull(this.lancamentoContaCartao.fornecedor))
                 this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Fornecedor inválido', life: 3000 });
