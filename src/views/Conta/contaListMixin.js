@@ -28,7 +28,6 @@ export default {
             parcela:null,
             defaultService: null,
             util:null,
-
         }
     },
     methods:{

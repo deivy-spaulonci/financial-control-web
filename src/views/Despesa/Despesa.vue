@@ -1,7 +1,7 @@
 <template>
     <Panel header="Despesas">
         <div id="frameDespesa">
-            <despesa-form :tipos="tipos" :formas-pgto="formasPgto"></despesa-form>
+            <despesa-form :tipos="tipos" :formas-pgto="formasPgto" @consultaDespesas="consultaDespesas"></despesa-form>
             <despesa-list :tipos="tipos" :formas-pgto="formasPgto" ref="depesaList"></despesa-list>
         </div>
     </Panel>
@@ -18,7 +18,7 @@ export default {
     mixins: [despesaMixin],
     methods:{
         consultaDespesas(){
-            this.$ref.depesaList.getDataDespesa();
+            this.$refs.depesaList.getDataDespesa();
         }
     }
 }

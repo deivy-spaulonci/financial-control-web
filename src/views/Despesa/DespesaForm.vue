@@ -48,15 +48,16 @@ export default {
     },
     methods:{
         clearDespesa(){
-            // this.despesaCadastro.valor = '0,00';
-            // this.despesaCadastro.obs = '';
+            this.despesaCadastro.valor = '0,00';
+            this.despesaCadastro.obs = '';
         },
         async cadastroDespesa(){
-            // this.despesaCadastro.data = this.util.formatData(this.despesaCadastro.data);
-            // this.despesaCadastro.valor = this.despesaCadastro.valor.replaceAll('.','').replaceAll(',', '.');
-            // // await this.defaultService.post('despesa',this.despesaCadastro);
+            this.despesaCadastro.data = this.util.formatData(this.despesaCadastro.data);
+            this.despesaCadastro.valor = this.despesaCadastro.valor.replaceAll('.','').replaceAll(',', '.');
+
+            await this.defaultService.post('despesa',this.despesaCadastro);
             this.$emit('consultaDespesas');
-            // await this.clearDespesa();
+            await this.clearDespesa();
         },
     },
     created() {

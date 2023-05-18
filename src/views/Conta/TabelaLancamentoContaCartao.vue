@@ -10,7 +10,7 @@
                 {{ slotProps.data.fornecedor.nome }}
             </template>
             <template #editor="slotProps">
-                  <AutoCompleteFornecedor @custom-change="(s) =>  slotProps.data.fornecedor = s"/>
+                  <AutoCompleteFornecedor @custom-change="(s) =>  slotProps.data.fornecedor = s" />
             </template>
         </Column>
         <Column field="valor" header="Valor" :sortable="true">
@@ -41,32 +41,20 @@ export default {
     components: {AutoCompleteFornecedor},
     data() {
         return {
-            util:null
+            util:null,
+            data: this.valores
         }
     },
     methods:{
         remove(data){
             let i = this.valores.indexOf(data);
-            console.log(i)
-            // this.valores.splice(i,1)
+            this.data.splice(i,1)
         },
         onCellEditComplete(event) {
             console.log(event)
-            // let { data, newValue, field } = event;
-
-
-            // switch (field) {
-            //     case 'quantity':
-            //     case 'price':
-            //         if (this.isPositiveInteger(newValue)) data[field] = newValue;
-            //         else event.preventDefault();
-            //         break;
-            //
-            //     default:
-            //         if (newValue.trim().length > 0) data[field] = newValue;
-            //         else event.preventDefault();
-            //         break;
-            // }
+            let { index, newValue } = event;
+            this.data[index].fornecedor.id = newValue.id;
+            this.data[index].fornecedor.nome = newValue.nome;
         },
     },
     created() {

@@ -38,10 +38,7 @@
                 <label>Observação:</label>
                 <textarea rows="3"  v-model="contaCadastro.obs" />
 
-
             </div>
-
-
 
         </template>
         <template #footer>
@@ -56,11 +53,11 @@
 
     <Toast />
 
-    <Dialog v-model:visible="visibleLcc" modal header="Lançamento Conta Cartao" :style="{ width: '50vw', textAlign: 'center'}">
-        <textarea rows="4" cols="50"  v-model="textoTest" @keypress.enter="textoTest+=';'" style="width: 100%;"/>
+    <Dialog v-model:visible="visibleLcc" modal
+            header="Lançamento Conta Cartao - 00000000(data) 0000(parcela) 0..(valor)  "
+            :style="{ width: '50vw', textAlign: 'center'}">
+        <textarea rows="10" cols="25"  v-model="textoTest" @keypress.enter="textoTest+=';'" style="width: 100%;"/>
         <Button type="button" icon="pi pi-arrows-v" label="converter" size="large" @click="preCadLcc" style="margin:10px;"></Button>
-
-
 
 <!--      <div id="lccForma">-->
 <!--          <AutoCompleteFornecedor @custom-change="(s) => lancamentoContaCartao.fornecedor = s"-->
@@ -74,6 +71,7 @@
         <TabelaLancamentoContaCartao :valores="this.contaCadastro.lancamentoContaCartao">
         </TabelaLancamentoContaCartao>
         <Button type="button" icon="pi pi-trash" label="Apagar tudo" severity="warning" style="margin:10px;" @click="contaCadastro.lancamentoContaCartao=[]"/>
+        <Button type="button" icon="pi pi-check" label="Confirmar" severity="success" style="margin:10px;" @click="visibleLcc=false"/>
     </Dialog>
 </template>
 

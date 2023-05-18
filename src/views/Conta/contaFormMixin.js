@@ -37,7 +37,10 @@ export default {
         preCadLcc(){
             var arr = this.textoTest.split(";");
             arr.forEach(linha => {
-                let lcc=new LancamentoContaCartao();
+                linha = linha.replaceAll("\n","")
+                let lcc= new LancamentoContaCartao();
+                lcc.fornecedor = new Fornecedor();
+
                 if(linha.length<13){
                     this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Erro: linha incompleta', life: 3000 });
                 }else{
@@ -53,12 +56,9 @@ export default {
                         lcc.totalParcela = parseInt(totalPa);
 
                         let valor= linha.substring(12, linha.length);
-                        console.log(parseFloat(valor));
-                        lcc.valor = valor;
+                        lcc.valor = parseFloat(valor)/100;
 
                         this.contaCadastro.lancamentoContaCartao.push(lcc);
-                    }else{
-                        this.$toast.add({ severity: 'error', summary: 'Error', detail: 'Fornecedor inválido', life: 3000 });
                     }
                 }
             });
@@ -99,6 +99,12 @@ export default {
             this.contaCadastro.parcela = parcela;
             this.contaCadastro.valor = this.util.formatCurrencyBRnoSymbol(conta.valor);
             this.contaCadastro.valorPago = this.util.formatCurrencyBRnoSymbol(conta.valorPago);
+            this.contaCadastro.emissao = this.util.formatDataUsToBr(this.contaCadastro.emissao);
+            this.contaCadastro.vencimento = this.util.formatDataUsToBr(this.contaCadastro.vencimento);
+            this.contaCadastro.dataPagamento =  this.contaCadastro.dataPagamento ?
+                this.util.formatDataUsToBr(this.contaCadastro.dataPagamento): null;
+            // this.contaCadastro.valor =  this.contaCadastro.valor ?
+            //     this.util.formatCurrencyBRnoSymbol(this.contaCadastro.valor): null;
         },
         async cadastraConta(){
             this.contaCadastro.vencimento = this.util.formatData(this.contaCadastro.vencimento);
@@ -107,7 +113,6 @@ export default {
             this.contaCadastro.parcela = arrParc[0] ? arrParc[0] : 0;
             this.contaCadastro.totalParcela  = arrParc[1] ? arrParc[1] : 0;
             this.contaCadastro.valor = this.contaCadastro.valor.replaceAll('.','').replaceAll(',', '.');
-
 
             if(this.contaCadastro.valorPago)
                 this.contaCadastro.valorPago = this.contaCadastro.valorPago.replaceAll('.','').replaceAll(',', '.');
