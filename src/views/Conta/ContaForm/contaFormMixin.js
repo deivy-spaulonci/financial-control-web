@@ -9,7 +9,6 @@ import Util from "@/util/Util";
 import Validation from "@/util/Validation";
 import {Fornecedor} from "@/model/Fornecedor";
 
-
 export default {
     emits: ["refreshListConta"],
     computed: {

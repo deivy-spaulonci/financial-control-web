@@ -13,8 +13,10 @@
                 <InputText type="text" id="numero" v-model="contaCadastro.numero"  placeholder="Número" class="w-full"/>
                 <label>Tipo Conta:</label>
                 <div class="p-inputgroup">
-                    <ComboTipo @custom-change="(s) => contaCadastro.tipoConta = s" :valores="tipos" place="Tipo Conta" :set-selected="contaCadastro.tipoConta"/>
-                    <Button type="button" :disabled="!contaCadastro.tipoConta.contaCartao" icon="pi pi-align-justify" class="p-button-warning p-button-sm" @click="visibleLcc = true"></Button>
+                    <ComboTipo @custom-change="(s) => contaCadastro.tipoConta = s" :valores="tipos" place="Tipo Conta"
+                               :set-selected="contaCadastro.tipoConta"/>
+                    <Button type="button" :disabled="!contaCadastro.tipoConta.contaCartao" icon="pi pi-align-justify"
+                            class="p-button-warning p-button-sm" @click="visibleLcc = true"></Button>
                 </div>
                 <div class="line4x4">
                     <label>Emissão:</label>
@@ -28,7 +30,8 @@
                 </div>
 
                 <label>Forma Pagamento:</label>
-                <ComboTipo @custom-change="(s) => contaCadastro.formaPagamento = s" :valores="formasPgto" place="Forma Pgto" valor-null="true" :set-selected="contaCadastro.formaPagamento"/>
+                <ComboTipo @custom-change="(s) => contaCadastro.formaPagamento = s" :valores="formasPgto"
+                           place="Forma Pgto" valor-null="true" :set-selected="contaCadastro.formaPagamento"/>
                 <div class="line4x4">
                     <label>Data Pgto:</label>
                     <label>Valor Pgto:</label>
@@ -76,7 +79,7 @@
 </template>
 
 <script>
-    import contaFormMixin from "@/views/Conta/contaFormMixin";
+    import contaFormMixin from "@/views/Conta/ContaForm/contaFormMixin";
     import TabelaLancamentoContaCartao from "@/views/Conta/TabelaLancamentoContaCartao.vue";
 
     export default {
@@ -87,5 +90,5 @@
 </script>
 
 <style scoped>
-    @import url('Conta.css');
+    @import url('../Conta.css');
 </style>

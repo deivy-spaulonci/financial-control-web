@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import FornecedorForm from "@/views/Fornecedor/FornecedorForm.vue";
-import FornecedorList from "@/views/Fornecedor/FornecedorList.vue";
+import FornecedorForm from "@/views/Fornecedor/FornecedorForm/FornecedorForm.vue";
+import FornecedorList from "@/views/Fornecedor/FornecedorList/FornecedorList.vue";
 
 export default {
     name: "Fornecedor",

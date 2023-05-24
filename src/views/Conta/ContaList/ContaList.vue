@@ -9,7 +9,6 @@
                       :showButtonBar="true" @clear-click="getDataConta" />
             <Calendar v-model="vencimentoFinal" placeholder="Vencimento Final" @date-select="getDataConta()"  dateFormat="dd/mm/yy"
                       :showButtonBar="true" @clear-click="getDataConta"/>
-
         </div>
 
         <DataTable :value="data" :loading="loading" dataKey="id" @sort="onSort($event)"
@@ -21,7 +20,7 @@
             <template #loading>Loading contas data. Please wait.</template>
 
             <Column :expander="true" headerStyle="width: 3rem" />
-            <Column field="id" header="Id" :sortable="true" class="columnId"></Column>
+            <Column field="id" header="Id" :sortable="true" class="columnId" style="width: 50px;"></Column>
             <Column field="tipoConta.nome" header="Conta" :sortable="true"></Column>
             <Column field="emissao" header="Emissão" :sortable="true">
                 <template #body="slotProps" >
@@ -90,7 +89,7 @@
 </template>
 
 <script>
-import contaListMixin from "@/views/Conta/contaListMixin";
+import contaListMixin from "@/views/Conta/ContaList/contaListMixin";
 import TabelaLancamentoContaCartao from "@/views/Conta/TabelaLancamentoContaCartao.vue";
 
 export default {
@@ -101,5 +100,5 @@ export default {
 </script>
 
 <style scoped>
-    @import url('Conta.css');
+    @import url('../Conta.css');
 </style>

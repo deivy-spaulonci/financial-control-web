@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import ContaForm from "@/views/Conta/ContaForm.vue";
-import ContaList from "@/views/Conta/ContaList.vue";
+import ContaForm from "@/views/Conta/ContaForm/ContaForm.vue";
+import ContaList from "@/views/Conta/ContaList/ContaList.vue";
 import DefaultService from "@/service/DefaultService";
 
 export default {
